@@ -5,12 +5,13 @@
  */
 package pt.lros.demo.userscontainer;
 
+import java.util.List;
+
 /**
  *
  * @author risca
  */
-public interface UpdateUser {
-    
-    User updateUser(UpdateUserData updateData);
-    
+public interface ListUsers {
+
+    List<User> users();
 }

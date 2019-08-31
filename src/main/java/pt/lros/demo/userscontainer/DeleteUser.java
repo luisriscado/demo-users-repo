@@ -10,5 +10,6 @@ package pt.lros.demo.userscontainer;
  * @author risca
  */
 public interface DeleteUser {
-    
+
+    void deleteUser(String username);
 }

@@ -5,29 +5,21 @@
  */
 package pt.lros.demo.userscontainer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 /**
  *
  * @author risca
  */
+@RequiredArgsConstructor
 @Getter
-@Setter
-@EqualsAndHashCode
-public class User {
+@EqualsAndHashCode(callSuper = false)
+public class UpdateUserData {
 
-    private String username;
+    private final String password;
 
-    private String name;
-
-    private Date createTimestamp;
-
-    private Date updateTimestamp;
-
-    private String password;
+    private final String name;
 
 }

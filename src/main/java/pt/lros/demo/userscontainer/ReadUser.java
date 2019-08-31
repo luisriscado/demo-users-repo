@@ -10,5 +10,6 @@ package pt.lros.demo.userscontainer;
  * @author risca
  */
 public interface ReadUser {
-    
+
+    User getUser(String username);
 }

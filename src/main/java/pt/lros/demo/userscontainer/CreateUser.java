@@ -10,5 +10,7 @@ package pt.lros.demo.userscontainer;
  * @author risca
  */
 public interface CreateUser {
-    
+
+    User createUser(CreateUserData newUser);
+
 }
