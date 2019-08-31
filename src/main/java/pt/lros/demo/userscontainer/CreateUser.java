@@ -5,12 +5,14 @@
  */
 package pt.lros.demo.userscontainer;
 
+import pt.lros.demo.userscontainer.errors.ValidationException;
+
 /**
  *
  * @author risca
  */
 public interface CreateUser {
 
-    User createUser(CreateUserData newUser);
+    User createUser(CreateUserData newUser) throws ValidationException;
 
 }

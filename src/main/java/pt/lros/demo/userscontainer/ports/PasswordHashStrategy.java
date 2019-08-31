@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.lros.demo.userscontainer.auth;
+package pt.lros.demo.userscontainer.ports;
 
 import java.util.Date;
 

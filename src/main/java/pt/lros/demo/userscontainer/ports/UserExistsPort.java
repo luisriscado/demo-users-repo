@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.lros.demo.userscontainer;
-
-import pt.lros.demo.userscontainer.errors.ValidationException;
+package pt.lros.demo.userscontainer.ports;
 
 /**
  *
  * @author risca
  */
-public interface DeleteUser {
+public interface UserExistsPort {
 
-    void deleteUser(String username) throws ValidationException;
+    boolean exists(String username);
 }

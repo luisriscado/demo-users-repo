@@ -28,6 +28,7 @@ public class User {
 
     private Date updateTimestamp;
 
+    @JsonIgnore
     private String password;
 
 }

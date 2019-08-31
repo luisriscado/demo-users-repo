@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.lros.demo.userscontainer.auth;
+package pt.lros.demo.userscontainer.app.auth;
 
+import java.nio.charset.StandardCharsets;
+import pt.lros.demo.userscontainer.ports.PasswordHashStrategy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +19,7 @@ class PasswordHashStrategyImpl implements PasswordHashStrategy {
     private static final String DATE_SALT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     /**
-     * Create an encryoted password from the password value and salted with
+     * Create an encrypted password from the password value and salted with
      * creation date
      *
      * @param password
@@ -30,8 +32,8 @@ class PasswordHashStrategyImpl implements PasswordHashStrategy {
         Objects.nonNull(createdDate);
 
         final String salt = new SimpleDateFormat(DATE_SALT_PATTERN).format(createdDate);
-
-        return new BCryptPasswordEncoder().encode(String.format("%s/%s", password, salt));
+        byte[] hash = Sha512DigestUtils.sha(String.format("%s/%s", password, salt));
+        return new String(hash, StandardCharsets.UTF_8);
     }
 
 }

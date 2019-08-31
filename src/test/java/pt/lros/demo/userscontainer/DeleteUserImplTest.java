@@ -5,13 +5,20 @@
  */
 package pt.lros.demo.userscontainer;
 
-import pt.lros.demo.userscontainer.errors.ValidationException;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author risca
  */
-public interface DeleteUser {
+public class DeleteUserImplTest {
+    
+    public DeleteUserImplTest() {
+    }
 
-    void deleteUser(String username) throws ValidationException;
+    @Test
+    public void testDeleteUser() {
+    }
+    
 }

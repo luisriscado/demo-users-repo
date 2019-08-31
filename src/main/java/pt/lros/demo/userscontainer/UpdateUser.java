@@ -5,12 +5,14 @@
  */
 package pt.lros.demo.userscontainer;
 
+import pt.lros.demo.userscontainer.errors.ValidationException;
+
 /**
  *
  * @author risca
  */
 public interface UpdateUser {
-    
-    User updateUser(UpdateUserData updateData);
-    
+
+    User updateUser(UpdateUserData updateData) throws ValidationException;
+
 }

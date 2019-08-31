@@ -4,6 +4,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -20,20 +21,6 @@ public class UsersContainerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UsersContainerApplication.class, args);
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
-    }
-
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter bean = new HibernateJpaVendorAdapter();
-        bean.setDatabase(Database.H2);
-        bean.setGenerateDdl(true);
-        bean.setShowSql(true);
-        return bean;
     }
 
     @Bean
