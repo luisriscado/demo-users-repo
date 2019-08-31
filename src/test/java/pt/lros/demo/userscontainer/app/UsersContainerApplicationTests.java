@@ -1,4 +1,4 @@
-package pt.lros.demo.userscontainer;
+package pt.lros.demo.userscontainer.app;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
