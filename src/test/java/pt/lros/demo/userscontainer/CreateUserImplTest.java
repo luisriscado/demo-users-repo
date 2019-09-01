@@ -13,7 +13,11 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.notNull;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
 import static pt.lros.demo.userscontainer.TestUtil.assertValidationExceptionContains;
@@ -61,6 +65,9 @@ public class CreateUserImplTest {
         assertNotEquals(c.getPassword(), created.getPassword());
         assertNotNull(created.getCreateTimestamp());
         assertNotNull(created.getUpdateTimestamp());
+        verify(userExistsPort).exists(c.getUsername());
+        verify(createUserPort).create(notNull());
+        verify(hashStrategy).hash(eq(c.getPassword()), notNull());
     }
 
     @Test
@@ -73,6 +80,9 @@ public class CreateUserImplTest {
             assertValidationExceptionContains(ex, Arrays.asList(UserErrors.PASSWORD_MANDATORY));
             assertValidationExceptionSize(ex, 1);
         }
+
+        verify(userExistsPort).exists(c.getUsername());
+        verify(createUserPort, never()).create(any());
     }
 
     @Test
