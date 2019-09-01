@@ -40,11 +40,11 @@ class DeleteUserImpl implements DeleteUser {
         } else {
 
             Optional<User> user = readUserPort.getUser(username);
-            if (DO_NOT_DELETE.contains(username.toLowerCase())) {
-                validations.add(UserErrors.USER_DELETE_NOT_ALLOWED);
-            }
+
             if (!user.isPresent()) {
                 validations.add(UserErrors.USER_DOS_NOT_EXIST);
+            } else if (DO_NOT_DELETE.contains(username.toLowerCase())) {
+                validations.add(UserErrors.USER_DELETE_NOT_ALLOWED);
             } else {
                 delete = user.get();
             }

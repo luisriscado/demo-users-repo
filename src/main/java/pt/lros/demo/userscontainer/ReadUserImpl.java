@@ -5,14 +5,20 @@
  */
 package pt.lros.demo.userscontainer;
 
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pt.lros.demo.userscontainer.ports.ReadUserPort;
 
 @Service
+@RequiredArgsConstructor
 class ReadUserImpl implements ReadUser {
 
+    private final ReadUserPort readUserPort;
+
     @Override
-    public User getUser(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Optional<User> getUser(String username) {
+        return readUserPort.getUser(username);
     }
 
 }

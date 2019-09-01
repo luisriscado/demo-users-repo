@@ -5,11 +5,13 @@
  */
 package pt.lros.demo.userscontainer;
 
+import java.util.Optional;
+
 /**
  *
  * @author risca
  */
 public interface ReadUser {
 
-    User getUser(String username);
+    Optional<User> getUser(String username);
 }

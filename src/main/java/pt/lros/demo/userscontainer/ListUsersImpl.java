@@ -6,14 +6,19 @@
 package pt.lros.demo.userscontainer;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pt.lros.demo.userscontainer.ports.ListUsersPort;
 
 @Service
+@RequiredArgsConstructor
 class ListUsersImpl implements ListUsers {
+
+    private final ListUsersPort listUsersPort;
 
     @Override
     public List<User> users() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return listUsersPort.listUsers();
     }
 
 }
