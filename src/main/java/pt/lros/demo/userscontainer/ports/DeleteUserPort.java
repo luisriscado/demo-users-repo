@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pt.lros.demo.userscontainer.data;
+package pt.lros.demo.userscontainer.ports;
 
 import pt.lros.demo.userscontainer.User;
 
@@ -11,9 +11,8 @@ import pt.lros.demo.userscontainer.User;
  *
  * @author risca
  */
-public interface UserEntityMap {
+public interface DeleteUserPort {
 
-    UserEntity fromDomain(User user);
+    void delete(User u);
 
-    User toDomain(UserEntity entity);
 }

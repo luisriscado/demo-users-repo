@@ -7,7 +7,7 @@ package pt.lros.demo.userscontainer;
 
 import java.util.Arrays;
 import java.util.Date;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -16,6 +16,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.MockitoJUnitRunner;
+import static pt.lros.demo.userscontainer.TestUtil.assertValidationExceptionContains;
+import static pt.lros.demo.userscontainer.TestUtil.assertValidationExceptionSize;
 import pt.lros.demo.userscontainer.check.Check;
 import pt.lros.demo.userscontainer.errors.ValidationException;
 import pt.lros.demo.userscontainer.ports.CreateUserPort;
@@ -50,13 +52,75 @@ public class CreateUserImplTest {
     }
 
     @Test
+    public void testCreateUser() throws ValidationException {
+        CreateUserData c = new CreateUserData("USR", "Pw@Rd89", "NAME");
+        User created = this.createUser.createUser(c);
+        assertNotNull(created);
+        assertEquals(c.getUsername(), created.getUsername());
+        assertEquals(c.getName(), created.getName());
+        assertNotEquals(c.getPassword(), created.getPassword());
+        assertNotNull(created.getCreateTimestamp());
+        assertNotNull(created.getUpdateTimestamp());
+    }
+
+    @Test
     public void testCreateUserMandatoryPassword() {
         CreateUserData c = new CreateUserData("USR", null, "NAME");
         try {
             this.createUser.createUser(c);
             fail("Validation exception not throwed");
         } catch (ValidationException ex) {
-            TestUtil.assertValidationExceptionContains(ex, Arrays.asList(UserErrors.PASSWORD_MANDATORY));
+            assertValidationExceptionContains(ex, Arrays.asList(UserErrors.PASSWORD_MANDATORY));
+            assertValidationExceptionSize(ex, 1);
+        }
+    }
+
+    @Test
+    public void testCreateUserMandatoryUserName() {
+        CreateUserData c = new CreateUserData("", "null23", "NAME");
+        try {
+            this.createUser.createUser(c);
+            fail("Validation exception not throwed");
+        } catch (ValidationException ex) {
+            assertValidationExceptionContains(ex, Arrays.asList(UserErrors.USERNAME_MANDATORY));
+            assertValidationExceptionSize(ex, 1);
+        }
+    }
+
+    @Test
+    public void testCreateUserMandatoryName() {
+        CreateUserData c = new CreateUserData("USR", "null23", "");
+        try {
+            this.createUser.createUser(c);
+            fail("Validation exception not throwed");
+        } catch (ValidationException ex) {
+            assertValidationExceptionContains(ex, Arrays.asList(UserErrors.NAME_MANDATORY));
+            assertValidationExceptionSize(ex, 1);
+        }
+    }
+
+    @Test
+    public void testCreateUsernameExists() {
+        CreateUserData c = new CreateUserData("USR", "null23", "LFlias");
+        when(userExistsPort.exists(c.getUsername())).thenReturn(true);
+        try {
+            this.createUser.createUser(c);
+            fail("Validation exception not throwed");
+        } catch (ValidationException ex) {
+            assertValidationExceptionContains(ex, Arrays.asList(UserErrors.USERNAME_ALREADY_EXISTS));
+            assertValidationExceptionSize(ex, 1);
+        }
+    }
+
+    @Test
+    public void testCreateinvalidPasswordStrengh() {
+        CreateUserData c = new CreateUserData("USR", "null", "LFlias");
+        try {
+            this.createUser.createUser(c);
+            fail("Validation exception not throwed");
+        } catch (ValidationException ex) {
+            assertValidationExceptionContains(ex, Arrays.asList(UserErrors.INVALID_STRENGH_PASSWORD));
+            assertValidationExceptionSize(ex, 1);
         }
     }
 

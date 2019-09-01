@@ -5,32 +5,27 @@
  */
 package pt.lros.demo.userscontainer.data.adapters;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pt.lros.demo.userscontainer.User;
-import pt.lros.demo.userscontainer.data.UserEntity;
 import pt.lros.demo.userscontainer.data.UserEntityMap;
 import pt.lros.demo.userscontainer.data.UserRepository;
-import pt.lros.demo.userscontainer.ports.ReadUserPort;
+import pt.lros.demo.userscontainer.ports.DeleteUserPort;
 
 /**
  *
  * @author risca
  */
-@Component
 @RequiredArgsConstructor
-class ReadUserPortAdapter implements ReadUserPort {
+@Component
+class DeleteUserAdapter implements DeleteUserPort {
 
-    private final UserRepository userRepository;
-
-    private final UserEntityMap userEntityMap;
+    private final UserRepository repository;
+    private final UserEntityMap entityMap;
 
     @Override
-    public Optional<User> getUser(String username) {
-        Optional<UserEntity> entity = userRepository.findById(username.toUpperCase());
-
-        return entity.map(userEntityMap::toDomain);
+    public void delete(User u) {
+        repository.delete(entityMap.fromDomain(u));
     }
 
 }

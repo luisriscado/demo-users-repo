@@ -40,7 +40,7 @@ class CreateUserImpl implements CreateUser {
 
         if (check.checkStringEmpty(newUser.getPassword())) {
             validations.add(UserErrors.PASSWORD_MANDATORY);
-        } else if (check.checkPasswordStrenght(newUser.getPassword())) {
+        } else if (!check.checkPasswordStrenghtValid(newUser.getPassword())) {
             validations.add(UserErrors.INVALID_STRENGH_PASSWORD);
         }
 
@@ -57,7 +57,7 @@ class CreateUserImpl implements CreateUser {
     private User createNewUser(CreateUserData newUser) {
         final User createUser = new User();
         final Date timestamp = new Date();
-        createUser.setUsername(newUser.getUsername());
+        createUser.setUsername(newUser.getUsername().toUpperCase());
         createUser.setCreateTimestamp(timestamp);
         createUser.setUpdateTimestamp(timestamp);
         createUser.setName(newUser.getName());

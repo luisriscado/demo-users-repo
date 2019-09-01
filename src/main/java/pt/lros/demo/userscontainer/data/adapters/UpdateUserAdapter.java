@@ -5,14 +5,12 @@
  */
 package pt.lros.demo.userscontainer.data.adapters;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pt.lros.demo.userscontainer.User;
-import pt.lros.demo.userscontainer.data.UserEntity;
 import pt.lros.demo.userscontainer.data.UserEntityMap;
 import pt.lros.demo.userscontainer.data.UserRepository;
-import pt.lros.demo.userscontainer.ports.ReadUserPort;
+import pt.lros.demo.userscontainer.ports.UpdateUserPort;
 
 /**
  *
@@ -20,17 +18,14 @@ import pt.lros.demo.userscontainer.ports.ReadUserPort;
  */
 @Component
 @RequiredArgsConstructor
-class ReadUserPortAdapter implements ReadUserPort {
+class UpdateUserAdapter implements UpdateUserPort {
 
     private final UserRepository userRepository;
-
     private final UserEntityMap userEntityMap;
 
     @Override
-    public Optional<User> getUser(String username) {
-        Optional<UserEntity> entity = userRepository.findById(username.toUpperCase());
-
-        return entity.map(userEntityMap::toDomain);
+    public void save(User u) {
+        userRepository.save(userEntityMap.fromDomain(u));
     }
 
 }

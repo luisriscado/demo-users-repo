@@ -26,4 +26,8 @@ public final class UserErrors {
     public static final ErrorCheck PASSWORD_MANDATORY = new ErrorCheck(ErrorType.ERR, "password_mandatory");
 
     public static final ErrorCheck INVALID_STRENGH_PASSWORD = new ErrorCheck(ErrorType.ERR, "invalid_strengh_password");
+
+    public static final ErrorCheck USER_DOS_NOT_EXIST = new ErrorCheck(ErrorType.ERR, "user_dos_not_exist");
+
+    public static final ErrorCheck USER_DELETE_NOT_ALLOWED = new ErrorCheck(ErrorType.ERR, "user_delete_not_allowed");
 }

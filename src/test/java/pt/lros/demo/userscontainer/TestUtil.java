@@ -6,6 +6,7 @@
 package pt.lros.demo.userscontainer;
 
 import java.util.Collection;
+import java.util.Set;
 import org.junit.Assert;
 import pt.lros.demo.userscontainer.errors.ErrorCheck;
 import pt.lros.demo.userscontainer.errors.ValidationException;
@@ -20,6 +21,12 @@ public class TestUtil {
         Assert.assertTrue(vEx != null
                 && errors != null
                 && vEx.getErrors().containsAll(errors));
+    }
+
+    public static void assertValidationExceptionSize(ValidationException vEx, int expected) {
+        Assert.assertTrue(vEx != null
+                && vEx.getErrors() != null
+                && vEx.getErrors().size() == expected);
     }
 
 }

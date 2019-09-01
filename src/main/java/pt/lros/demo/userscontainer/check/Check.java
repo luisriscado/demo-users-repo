@@ -29,8 +29,8 @@ public class Check {
         }
     }
 
-    public boolean checkPasswordStrenght(String password) {
-        return password != null && password.trim().length() > 6;
+    public boolean checkPasswordStrenghtValid(String password) {
+        return password != null && password.trim().length() >= 6;
     }
 
 }
