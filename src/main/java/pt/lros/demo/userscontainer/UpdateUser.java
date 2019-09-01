@@ -13,6 +13,6 @@ import pt.lros.demo.userscontainer.errors.ValidationException;
  */
 public interface UpdateUser {
 
-    User updateUser(UpdateUserData updateData) throws ValidationException;
+    User updateUser(String username, UpdateUserData updateData) throws ValidationException;
 
 }
