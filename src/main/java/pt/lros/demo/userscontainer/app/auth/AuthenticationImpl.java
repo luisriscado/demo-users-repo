@@ -5,6 +5,7 @@
  */
 package pt.lros.demo.userscontainer.app.auth;
 
+import java.util.Arrays;
 import pt.lros.demo.userscontainer.ports.PasswordHashStrategy;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import pt.lros.demo.userscontainer.User;
 import pt.lros.demo.userscontainer.ports.ReadUserPort;
@@ -39,8 +41,8 @@ class AuthenticationImpl implements AuthenticationProvider {
         if (!Objects.equals(storedPassword, passwordHashValue)) {
             throw new BadCredentialsException("Invalid password");
         }
-        a = new UsernamePasswordAuthenticationToken(user, "secured");
-        a.setAuthenticated(true);
+        a = new UsernamePasswordAuthenticationToken(user, "secured",
+                Arrays.asList(new SimpleGrantedAuthority("user")));
         return a;
 
     }

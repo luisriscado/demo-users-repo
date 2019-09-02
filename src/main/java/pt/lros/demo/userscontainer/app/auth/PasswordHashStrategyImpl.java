@@ -32,8 +32,7 @@ class PasswordHashStrategyImpl implements PasswordHashStrategy {
         Objects.nonNull(createdDate);
 
         final String salt = new SimpleDateFormat(DATE_SALT_PATTERN).format(createdDate);
-        byte[] hash = Sha512DigestUtils.sha(String.format("%s/%s", password, salt));
-        return new String(hash, StandardCharsets.UTF_8);
+        return Sha512DigestUtils.shaHex(String.format("%s/%s", password, salt));
     }
 
 }

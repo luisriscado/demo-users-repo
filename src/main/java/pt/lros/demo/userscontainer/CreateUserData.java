@@ -7,12 +7,16 @@ package pt.lros.demo.userscontainer;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author risca
  */
 @Getter
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CreateUserData extends UpdateUserData {
 
@@ -21,6 +25,6 @@ public class CreateUserData extends UpdateUserData {
         this.username = username;
     }
 
-    private final String username;
+    private String username;
 
 }

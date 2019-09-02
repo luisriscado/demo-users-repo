@@ -5,10 +5,13 @@
  */
 package pt.lros.demo.userscontainer.app.rest;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import java.util.List;
 import java.util.Optional;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,25 +48,25 @@ public class UsersEndpoint {
     private final ListUsers listUsers;
     private final DeleteUser deleteUser;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<User> list() {
         return listUsers.users();
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public User create(@RequestBody CreateUserData createUserData) throws ValidationException {
         return createUser.createUser(createUserData);
     }
 
-    @GetMapping("/{user}")
+    @GetMapping(value = "/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Optional<User> read(@PathParam("user") String user) throws ValidationException {
         return readUser.getUser(user);
     }
 
-    @PutMapping("/{user}")
+    @PutMapping(value = "/{user}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public User update(@PathParam("user") String user,
             @RequestBody UpdateUserData updateUserData) throws ValidationException {

@@ -40,7 +40,7 @@ public class JWTAuthentication extends UsernamePasswordAuthenticationFilter {
         final String username = request.getParameter("username");
         final String password = request.getParameter("password");
         if (log.isInfoEnabled()) {
-            log.info("Attempt user {} login", username);
+            log.info("Attempt login user {} ", username);
         }
 
         Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);

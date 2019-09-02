@@ -5,21 +5,23 @@
  */
 package pt.lros.demo.userscontainer;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author risca
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class UpdateUserData {
 
-    private final String password;
+    private String password;
 
-    private final String name;
+    private String name;
 
 }

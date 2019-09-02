@@ -9,6 +9,8 @@ import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,6 +18,7 @@ import org.junit.Before;
  */
 public class PasswordHashStrategyImplTest {
 
+    private static final Logger log = LoggerFactory.getLogger(PasswordHashStrategyImplTest.class);
     private PasswordHashStrategyImpl passwordHashStrategyImpl;
     private Date timestamp;
     private String password;
@@ -33,7 +36,7 @@ public class PasswordHashStrategyImplTest {
     @Test
     public void testHash() {
         String hash = this.passwordHashStrategyImpl.hash(password, timestamp);
-
+        log.info("Hash result = {}", hash);
         assertNotNull(hash);
         assertEquals(hash, this.passwordHashStrategyImpl.hash("cen@s", timestamp));
         assertFalse(hash.contains(password));
