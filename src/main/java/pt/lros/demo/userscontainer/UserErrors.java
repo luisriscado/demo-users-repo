@@ -17,7 +17,7 @@ import pt.lros.demo.userscontainer.errors.ErrorType;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserErrors {
 
-    public static final ErrorCheck USERNAME_ALREADY_EXISTS = new ErrorCheck(ErrorType.ERR, "username_already_esxists");
+    public static final ErrorCheck USERNAME_ALREADY_EXISTS = new ErrorCheck(ErrorType.ERR, "username_already_exists");
 
     public static final ErrorCheck NAME_MANDATORY = new ErrorCheck(ErrorType.ERR, "name_mandatory");
 
