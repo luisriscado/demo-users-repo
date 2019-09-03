@@ -5,6 +5,7 @@ export class Messages {
     this.messages = new Map<string, string>();
     this.messages.set("login_error", "Erro Desconhecido");
     this.messages.set("login_failed", "Credenciais Erradas");
+    this.messages.set("users_error", "Erro Desconhecido");
     this.messages.set("username_already_exists", "Utilizador já existe");
     this.messages.set("name_mandatory", "O campo Nome é obrigatório.");
     this.messages.set("username_mandatory", "O Campo Username é obrigatório");
@@ -15,7 +16,9 @@ export class Messages {
   }
 
   public getMessage(key: string, def?: string): string | null {
-    return this.messages.get(key) || def || key;
+
+
+    return this.messages.get(key) || this.messages.get(def || "") || def || key;
   }
 }
 

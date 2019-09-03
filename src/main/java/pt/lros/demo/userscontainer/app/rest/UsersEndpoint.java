@@ -5,8 +5,6 @@
  */
 package pt.lros.demo.userscontainer.app.rest;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import java.util.List;
 import java.util.Optional;
 import javax.websocket.server.PathParam;
@@ -14,12 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.lros.demo.userscontainer.CreateUser;
@@ -40,6 +40,8 @@ import pt.lros.demo.userscontainer.errors.ValidationException;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Transactional
+@CrossOrigin(origins = "*", methods = {RequestMethod.DELETE, RequestMethod.GET,
+    RequestMethod.POST, RequestMethod.OPTIONS, RequestMethod.PUT})
 public class UsersEndpoint {
 
     private final CreateUser createUser;
