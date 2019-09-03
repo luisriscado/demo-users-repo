@@ -66,5 +66,6 @@ public class JWTAuthentication extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader("Access-Control-Expose-Headers", SecurityConstants.TOKEN_HEADER);
     }
 }
