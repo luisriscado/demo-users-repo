@@ -3,6 +3,7 @@ export class Messages {
 
   constructor() {
     this.messages = new Map<string, string>();
+    this.messages.set("login_error", "Erro Desconhecido");
     this.messages.set("login_failed", "Credenciais Erradas");
     this.messages.set("username_already_exists", "Utilizador já existe");
     this.messages.set("name_mandatory", "O campo Nome é obrigatório.");
@@ -13,7 +14,7 @@ export class Messages {
     this.messages.set("user_delete_not_allowed", "Não é possivel eliminar o utilizador");
   }
 
-  public getMessage(key: string, def: string): string | undefined {
+  public getMessage(key: string, def?: string): string | null {
     return this.messages.get(key) || def || key;
   }
 }

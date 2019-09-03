@@ -33,3 +33,4 @@ build/
 /nb-configuration.xml
 /h2/users-container.trace.db
 /h2/users-container.mv.db
+/src/users-app/package-lock.json
