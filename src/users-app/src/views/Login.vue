@@ -75,8 +75,6 @@ export default class Login extends Vue {
         }
       });
   }
-
-  showMessage(): void {}
 }
 </script>
 
