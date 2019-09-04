@@ -121,6 +121,14 @@ class User {
   constructor() {}
 }
 
+class UserData {
+  public username: string = "";
+  public password: string | null = null;
+  public name: string | null = null;
+  public createTimestamp: number | null = null;
+  public updateTimestamp: number | null = null;
+}
+
 class Error {
   public errorType: string | undefined;
   public errorCode: string = "";
@@ -186,13 +194,17 @@ export default class Users extends Vue {
         } else {
           let users: Array<User> = (me.users = []);
 
-          response.data.forEach(u => {
+          response.data.forEach((u: UserData) => {
             let newUser = new User();
             newUser.username = u.username;
             newUser.password = u.password;
             newUser.name = u.name;
-            newUser.createTimestamp = new Date(u.createTimestamp);
-            newUser.updateTimestamp = new Date(u.updateTimestamp);
+            newUser.createTimestamp = u.createTimestamp
+              ? new Date(u.createTimestamp)
+              : null;
+            newUser.updateTimestamp = u.updateTimestamp
+              ? new Date(u.updateTimestamp)
+              : null;
 
             users.push(newUser);
           });
