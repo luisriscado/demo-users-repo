@@ -5,6 +5,7 @@
  */
 package pt.lros.demo.userscontainer;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,7 @@ class UpdateUserImpl implements UpdateUser {
         }
 
         check.checkErrorList(validations);
-
+        update.setUpdateTimestamp(new Date());
         updateUserPort.save(update);
 
         return update;
