@@ -16,8 +16,6 @@ export class Messages {
   }
 
   public getMessage(key: string, def?: string): string | null {
-
-
     return this.messages.get(key) || this.messages.get(def || "") || def || key;
   }
 }

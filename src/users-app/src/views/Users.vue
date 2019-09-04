@@ -2,9 +2,10 @@
   <div class="users container-fluid">
     <div class="row">
       <div class="col">
-        <h1>Users</h1>
+        <h1>Utilizadores</h1>
       </div>
-      <div class="col-md-2">
+      <div class="col-sm-4 buttons">
+        <button class="btn btn-success" @click="createUser === null && create()">+ Novo Utilizador</button>
         <button type="button" class="btn btn-danger" @click="doLogout">Logout</button>
       </div>
     </div>
@@ -56,9 +57,6 @@
         </form>
       </div>
     </div>
-    <div class="row">
-      <button class="btn btn-success" @click="createUser === null && create()">+ Criar</button>
-    </div>
     <div v-if="createUser !== null" class="row">
       <h2>Novo Utilizador</h2>
       <table class="table table-striped">
@@ -90,12 +88,9 @@
       <button class="btn" @click="createUser = null">Cancelar</button>
     </div>
     <div v-if="errors !== null" class="row">
-      <div
-        v-for="error in errors"
-        v-bind:key="error.errorCode"
-        class="alert alert-danger"
-        role="alert"
-      >{{messages.getMessage(error.errorCode)}}</div>
+      <div class="alert alert-danger errors" role="alert">
+        <div v-for="error in errors" v-bind:key="error.errorCode">{{getMessage(error.errorCode)}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -138,7 +133,8 @@ export default class Users extends Vue {
   private editUser: User | null = null;
   private createUser: User | null = null;
   readonly USERS_URL: string = "/api/users";
-  private HANDLE_REQ_ERROR = (error: AxiosError) => {
+
+  handleReqError(error: AxiosError): void {
     var me = this;
     if (error.response && error.response.status === 401) {
       //logout
@@ -160,8 +156,10 @@ export default class Users extends Vue {
       };
       me.errors.push(error);
     }
-  };
+  }
+
   list(): void {
+    const me = this;
     const config: AxiosRequestConfig = {
       method: "get",
       headers: { Authorization: session.getToken() },
@@ -190,8 +188,13 @@ export default class Users extends Vue {
           });
         }
       })
-      .catch(this.HANDLE_REQ_ERROR);
+      .catch(this.handleReqError);
   }
+
+  getMessage(err: string): any {
+    return messages.getMessage(err);
+  }
+
   mounted() {
     this.list();
   }
@@ -208,7 +211,7 @@ export default class Users extends Vue {
         me.list();
         me.createUser = null;
       })
-      .catch(this.HANDLE_REQ_ERROR);
+      .catch(this.handleReqError);
   }
 
   saveUpdate(): void {
@@ -228,7 +231,7 @@ export default class Users extends Vue {
         me.list();
         me.editUser = null;
       })
-      .catch(this.HANDLE_REQ_ERROR);
+      .catch(this.handleReqError);
   }
   deleteUser(username: String): void {
     const me = this;
@@ -244,7 +247,7 @@ export default class Users extends Vue {
       .then((response: AxiosResponse) => {
         me.list();
       })
-      .catch(this.HANDLE_REQ_ERROR);
+      .catch(this.handleReqError);
   }
   edit(user: User): void {
     this.editUser = user;
@@ -268,6 +271,14 @@ export default class Users extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.buttons button {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.errors {
+  width: 100%;
+}
 /* BASIC */
 .users {
   margin-right: 10px;
