@@ -10,6 +10,7 @@
           class="fadeIn second"
           name="login"
           placeholder="login"
+          v-on:keyup.enter="doLogin"
         />
         <input
           type="password"
@@ -17,6 +18,7 @@
           class="fadeIn third"
           name="login"
           placeholder="password"
+          v-on:keyup.enter="doLogin"
         />
         <input type="button" class="fadeIn fourth" value="Log In" @click="doLogin" />
       </form>
