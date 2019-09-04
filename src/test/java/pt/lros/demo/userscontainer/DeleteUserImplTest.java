@@ -48,7 +48,7 @@ public class DeleteUserImplTest {
         this.user = new User();
         this.userName = "usrTst";
         when(readUserPort.getUser(userName)).thenReturn(Optional.of(user));
-        when(readUserPort.getUser("ITusr")).thenReturn(Optional.of(user));
+        when(readUserPort.getUser("ITuser")).thenReturn(Optional.of(user));
 
     }
 
@@ -62,12 +62,12 @@ public class DeleteUserImplTest {
     @Test
     public void testDeleteUserNotAllowed() {
         try {
-            deleteUser.deleteUser("ITusr");
+            deleteUser.deleteUser("ITuser");
         } catch (ValidationException ex) {
             assertValidationExceptionContains(ex, Arrays.asList(UserErrors.USER_DELETE_NOT_ALLOWED));
             assertValidationExceptionSize(ex, 1);
         }
-        verify(readUserPort).getUser("ITusr");
+        verify(readUserPort).getUser("ITuser");
     }
 
     @Test

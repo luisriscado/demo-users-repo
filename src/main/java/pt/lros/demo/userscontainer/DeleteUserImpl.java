@@ -29,7 +29,7 @@ class DeleteUserImpl implements DeleteUser {
 
     private final DeleteUserPort deleteUserPort;
 
-    private static final Set<String> DO_NOT_DELETE = Stream.of("itusr").collect(Collectors.toSet());
+    private static final Set<String> DO_NOT_DELETE = Stream.of("ituser").collect(Collectors.toSet());
 
     @Override
     public void deleteUser(String username) throws ValidationException {

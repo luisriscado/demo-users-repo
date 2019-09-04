@@ -7,7 +7,6 @@ package pt.lros.demo.userscontainer.app.rest;
 
 import java.util.List;
 import java.util.Optional;
-import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,19 +64,19 @@ public class UsersEndpoint {
 
     @GetMapping(value = "/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Optional<User> read(@PathParam("user") String user) throws ValidationException {
+    public Optional<User> read(@PathVariable("user") String user) throws ValidationException {
         return readUser.getUser(user);
     }
 
     @PutMapping(value = "/{user}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public User update(@PathParam("user") String user,
+    public User update(@PathVariable("user") String user,
             @RequestBody UpdateUserData updateUserData) throws ValidationException {
         return updateUser.updateUser(user, updateUserData);
     }
 
     @DeleteMapping("/{user}")
-    public ResponseEntity delete(@PathParam("user") String user) throws ValidationException {
+    public ResponseEntity delete(@PathVariable("user") String user) throws ValidationException {
         deleteUser.deleteUser(user);
         return ResponseEntity.ok().build();
     }
