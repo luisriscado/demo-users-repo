@@ -1,5 +1,5 @@
 <template>
-  <div class="users container-fluid">
+  <div class="users">
     <div class="row">
       <div class="col">
         <h1>Utilizadores</h1>
@@ -52,7 +52,7 @@
           </div>
           <div class="row">
             <button class="btn btn-primary" @click="saveUpdate()">Guardar</button>
-            <button class="btn" @click="editUser = null">Cancelar</button>
+            <button class="btn" @click="exitEdit">Cancelar</button>
           </div>
         </form>
       </div>
@@ -85,7 +85,7 @@
           </tr>
         </tbody>
       </table>
-      <button class="btn" @click="createUser = null">Cancelar</button>
+      <button class="btn" @click="exitCreate">Cancelar</button>
     </div>
     <div v-if="errors !== null" class="row">
       <div class="alert alert-danger errors" role="alert">
@@ -134,6 +134,16 @@ export default class Users extends Vue {
   private createUser: User | null = null;
   readonly USERS_URL: string = "/api/users";
 
+  exitCreate() {
+    this.errors = null;
+    this.createUser = null;
+  }
+
+  exitEdit() {
+    this.errors = null;
+    this.editUser = null;
+  }
+
   handleReqError(error: AxiosError): void {
     var me = this;
     if (error.response && error.response.status === 401) {
@@ -172,9 +182,9 @@ export default class Users extends Vue {
           !response.data.length ||
           !(response.data.length > 0)
         ) {
-          this.users = [];
+          me.users = [];
         } else {
-          let users: Array<User> = (this.users = []);
+          let users: Array<User> = (me.users = []);
 
           response.data.forEach(u => {
             let newUser = new User();
@@ -187,6 +197,7 @@ export default class Users extends Vue {
             users.push(newUser);
           });
         }
+        me.errors = null;
       })
       .catch(this.handleReqError);
   }
@@ -210,6 +221,7 @@ export default class Users extends Vue {
       .then((response: AxiosResponse) => {
         me.list();
         me.createUser = null;
+        me.errors = null;
       })
       .catch(this.handleReqError);
   }
@@ -230,6 +242,7 @@ export default class Users extends Vue {
       .then((response: AxiosResponse) => {
         me.list();
         me.editUser = null;
+        me.errors = null;
       })
       .catch(this.handleReqError);
   }
@@ -246,11 +259,14 @@ export default class Users extends Vue {
       })
       .then((response: AxiosResponse) => {
         me.list();
+        me.errors = null;
       })
       .catch(this.handleReqError);
   }
   edit(user: User): void {
-    this.editUser = user;
+    this.editUser = new User();
+    this.editUser.username = user.username;
+    this.editUser.name = user.name;
   }
   create(): void {
     this.createUser = new User();
