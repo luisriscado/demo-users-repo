@@ -1,7 +1,12 @@
 <template>
   <div class="users container-fluid">
     <div class="row">
-      <h1>Users</h1>
+      <div class="col">
+        <h1>Users</h1>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-danger" @click="doLogout">Logout</button>
+      </div>
     </div>
     <div class="row">
       <div class="col">
@@ -29,13 +34,33 @@
           </tbody>
         </table>
       </div>
-      <div v-if="editUser !== null" class="col"></div>
+      <div v-if="editUser !== null" class="col-md-4">
+        <form>
+          <h2>Editar {{editUser.username}}</h2>
+          <div class="form-group">
+            <label for="name">Nome:</label>
+            <input id="name" type="name" class="form-control" v-model="editUser.name" />
+          </div>
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input id="pwd" type="password" class="form-control" v-model="editUser.password" />
+            <span
+              v-if="editUser.password !== null && editUser.password !== undefined && editUser.password.trim().length>0"
+              class="label label-warning"
+            >A Password vai ser modificada</span>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary" @click="saveUpdate()">Guardar</button>
+            <button class="btn" @click="editUser = null">Cancelar</button>
+          </div>
+        </form>
+      </div>
     </div>
     <div class="row">
-      <button class="btn btn-success" @click="create()">+ Criar</button>
+      <button class="btn btn-success" @click="createUser === null && create()">+ Criar</button>
     </div>
     <div v-if="createUser !== null" class="row">
-      <h3>Novo Utilizador</h3>
+      <h2>Novo Utilizador</h2>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -62,6 +87,7 @@
           </tr>
         </tbody>
       </table>
+      <button class="btn" @click="createUser = null">Cancelar</button>
     </div>
     <div v-if="errors !== null" class="row">
       <div
@@ -112,7 +138,7 @@ export default class Users extends Vue {
   private editUser: User | null = null;
   private createUser: User | null = null;
   readonly USERS_URL: string = "/api/users";
-  readonly HANDLE_REQ_ERROR = (error: AxiosError) => {
+  private HANDLE_REQ_ERROR = (error: AxiosError) => {
     var me = this;
     if (error.response && error.response.status === 401) {
       //logout
@@ -143,7 +169,26 @@ export default class Users extends Vue {
     };
     axios(config)
       .then((response: AxiosResponse) => {
-        this.users = response.data;
+        if (
+          !response.data ||
+          !response.data.length ||
+          !(response.data.length > 0)
+        ) {
+          this.users = [];
+        } else {
+          let users: Array<User> = (this.users = []);
+
+          response.data.forEach(u => {
+            let newUser = new User();
+            newUser.username = u.username;
+            newUser.password = u.password;
+            newUser.name = u.name;
+            newUser.createTimestamp = new Date(u.createTimestamp);
+            newUser.updateTimestamp = new Date(u.updateTimestamp);
+
+            users.push(newUser);
+          });
+        }
       })
       .catch(this.HANDLE_REQ_ERROR);
   }
@@ -162,6 +207,26 @@ export default class Users extends Vue {
       .then((response: AxiosResponse) => {
         me.list();
         me.createUser = null;
+      })
+      .catch(this.HANDLE_REQ_ERROR);
+  }
+
+  saveUpdate(): void {
+    const me = this;
+    if (me.editUser == null) {
+      return;
+    }
+
+    const config: AxiosRequestConfig = {
+      method: "put",
+      headers: { Authorization: session.getToken() },
+      url: me.USERS_URL + "/" + me.editUser.username,
+      data: me.editUser
+    };
+    axios(config)
+      .then((response: AxiosResponse) => {
+        me.list();
+        me.editUser = null;
       })
       .catch(this.HANDLE_REQ_ERROR);
   }
@@ -197,7 +262,7 @@ export default class Users extends Vue {
       return "";
     }
 
-    return date.toString();
+    return date.toLocaleString();
   }
 }
 </script>
@@ -260,25 +325,5 @@ h2 {
   -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
-}
-
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}
-
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
-}
-
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
 }
 </style>
