@@ -35,6 +35,7 @@
       <button class="btn btn-success" @click="create()">+ Criar</button>
     </div>
     <div v-if="createUser !== null" class="row">
+      <h3>Novo Utilizador</h3>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -47,13 +48,13 @@
         <tbody>
           <tr>
             <td>
-              <input type="text" v-bind="createUser.username" />
+              <input type="text" v-model="createUser.username" />
             </td>
             <td>
-              <input type="text" v-bind="createUser.name" />
+              <input type="text" v-model="createUser.name" />
             </td>
             <td>
-              <input type="password" v-bind="createUser.password" />
+              <input type="password" v-model="createUser.password" />
             </td>
             <td>
               <button class="btn btn-success" @click="saveCreate()">Guardar</button>
