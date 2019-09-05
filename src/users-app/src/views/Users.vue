@@ -9,6 +9,36 @@
         <button type="button" class="btn btn-danger" @click="doLogout">Logout</button>
       </div>
     </div>
+    <div v-if="createUser !== null" class="row create">
+      <h2>Novo Utilizador</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>Username</td>
+            <td>Nome</td>
+            <td>Password</td>
+            <td>Guardar</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input type="text" v-model="createUser.username" />
+            </td>
+            <td>
+              <input type="text" v-model="createUser.name" />
+            </td>
+            <td>
+              <input type="password" v-model="createUser.password" />
+            </td>
+            <td>
+              <button class="btn btn-success" @click="saveCreate()">Guardar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn cancel" @click="exitCreate">Cancelar</button>
+    </div>
     <div class="row">
       <div class="col">
         <table class="table table-striped">
@@ -56,36 +86,6 @@
           </div>
         </form>
       </div>
-    </div>
-    <div v-if="createUser !== null" class="row">
-      <h2>Novo Utilizador</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <td>Username</td>
-            <td>Nome</td>
-            <td>Password</td>
-            <td>Guardar</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input type="text" v-model="createUser.username" />
-            </td>
-            <td>
-              <input type="text" v-model="createUser.name" />
-            </td>
-            <td>
-              <input type="password" v-model="createUser.password" />
-            </td>
-            <td>
-              <button class="btn btn-success" @click="saveCreate()">Guardar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="btn" @click="exitCreate">Cancelar</button>
     </div>
     <div v-if="errors !== null" class="row">
       <div class="alert alert-danger errors" role="alert">
@@ -302,6 +302,14 @@ export default class Users extends Vue {
 .buttons button {
   margin-left: 20px;
   margin-bottom: 10px;
+}
+
+.row.create {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #cccccc ;
+  .btn.cancel {
+    margin-left: 20px;
+  }
 }
 
 .errors {
