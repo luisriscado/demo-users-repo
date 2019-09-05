@@ -9,11 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication(scanBasePackages = "pt.lros.demo.userscontainer")
 @EnableJpaRepositories(basePackages = "pt.lros.demo.userscontainer.data")
-@EnableWebMvc
 public class UsersContainerApplication {
 
     public static void main(String[] args) {
