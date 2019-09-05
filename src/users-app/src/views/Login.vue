@@ -23,9 +23,7 @@
         <input type="button" class="fadeIn fourth" value="Log In" @click="doLogin" />
       </form>
     </div>
-    <div v-if="error !== null" class="alert alert-danger" role="alert">
-      {{error}}
-    </div>
+    <div v-if="error !== null" class="alert alert-danger" role="alert">{{error}}</div>
   </div>
 </template>
 
@@ -57,7 +55,7 @@ export default class Login extends Vue {
     bodyFormData.set("password", this.password);
     const config: AxiosRequestConfig = {
       method: "post",
-      url: "http://localhost:8080/login",
+      url: "/login",
       data: bodyFormData
     };
     axios(config)
