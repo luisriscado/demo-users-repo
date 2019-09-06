@@ -9,36 +9,12 @@
         <button type="button" class="btn btn-danger" @click="doLogout">Logout</button>
       </div>
     </div>
-    <div v-if="createUser !== null" class="row create">
-      <h2>Novo Utilizador</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <td>Username</td>
-            <td>Nome</td>
-            <td>Password</td>
-            <td>Guardar</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input type="text" v-model="createUser.username" />
-            </td>
-            <td>
-              <input type="text" v-model="createUser.name" />
-            </td>
-            <td>
-              <input type="password" v-model="createUser.password" />
-            </td>
-            <td>
-              <button class="btn btn-success" @click="saveCreate()">Guardar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button class="btn cancel" @click="exitCreate">Cancelar</button>
-    </div>
+    <UserCreate
+      v-bind:createUser="createUser"
+      v-on:exit="exitCreate"
+      v-on:userAdded="list"
+      v-on:errors="showErrors"
+    ></UserCreate>
     <div class="row">
       <div class="col">
         <table class="table table-striped">
@@ -65,27 +41,12 @@
           </tbody>
         </table>
       </div>
-      <div v-if="editUser !== null" class="col-md-4">
-        <form>
-          <h2>Editar {{editUser.username}}</h2>
-          <div class="form-group">
-            <label for="name">Nome:</label>
-            <input id="name" type="name" class="form-control" v-model="editUser.name" />
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input id="pwd" type="password" class="form-control" v-model="editUser.password" />
-            <span
-              v-if="editUser.password !== null && editUser.password !== undefined && editUser.password.trim().length>0"
-              class="label label-warning"
-            >A Password vai ser modificada</span>
-          </div>
-          <div class="row">
-            <button class="btn btn-primary" @click="saveUpdate()">Guardar</button>
-            <button class="btn" @click="exitEdit">Cancelar</button>
-          </div>
-        </form>
-      </div>
+      <UserEdit
+      v-bind:editUser="editUser"
+      v-on:exit="exitEdit"
+      v-on:userEdited="list"
+      v-on:errors="showErrors"
+    ></UserEdit>
     </div>
     <div v-if="errors !== null" class="row">
       <div class="alert alert-danger errors" role="alert">
@@ -111,36 +72,26 @@ import axios, {
   Canceler
 } from "axios";
 
-class User {
-  public username: string = "";
-  public password: string | null = null;
-  public name: string | null = null;
-  public createTimestamp: Date | null = null;
-  public updateTimestamp: Date | null = null;
+import { User, UserData, Error } from "@/components/user-types";
+import UserCreate from "./UserCreate.vue";
+import UserEdit from "./UserEdit.vue";
 
-  constructor() {}
-}
-
-class UserData {
-  public username: string = "";
-  public password: string | null = null;
-  public name: string | null = null;
-  public createTimestamp: number | null = null;
-  public updateTimestamp: number | null = null;
-}
-
-class Error {
-  public errorType: string | undefined;
-  public errorCode: string = "";
-}
-
-@Component({})
+@Component({
+  components: {
+    UserCreate,
+    UserEdit
+  }
+})
 export default class Users extends Vue {
   private errors: Array<Error> | null = null;
   private users: Array<User> | null = null;
   private editUser: User | null = null;
   private createUser: User | null = null;
   readonly USERS_URL: string = "/api/users";
+
+  showErrors(errors: Array<Error> | null) {
+    this.errors = errors;
+  }
 
   exitCreate() {
     this.errors = null;
@@ -221,43 +172,8 @@ export default class Users extends Vue {
   mounted() {
     this.list();
   }
-  saveCreate(): void {
-    const me = this;
-    const config: AxiosRequestConfig = {
-      method: "post",
-      headers: { Authorization: session.getToken() },
-      url: this.USERS_URL,
-      data: this.createUser
-    };
-    axios(config)
-      .then((response: AxiosResponse) => {
-        me.list();
-        me.createUser = null;
-        me.errors = null;
-      })
-      .catch(this.handleReqError);
-  }
 
-  saveUpdate(): void {
-    const me = this;
-    if (me.editUser == null) {
-      return;
-    }
-
-    const config: AxiosRequestConfig = {
-      method: "put",
-      headers: { Authorization: session.getToken() },
-      url: me.USERS_URL + "/" + me.editUser.username,
-      data: me.editUser
-    };
-    axios(config)
-      .then((response: AxiosResponse) => {
-        me.list();
-        me.editUser = null;
-        me.errors = null;
-      })
-      .catch(this.handleReqError);
-  }
+  
   deleteUser(username: String): void {
     const me = this;
     const config: AxiosRequestConfig = {
@@ -306,7 +222,7 @@ export default class Users extends Vue {
 
 .row.create {
   margin-bottom: 20px;
-  border-bottom: 2px solid #cccccc ;
+  border-bottom: 2px solid #cccccc;
   .btn.cancel {
     margin-left: 20px;
   }
